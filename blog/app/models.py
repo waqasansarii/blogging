@@ -8,14 +8,14 @@ class User(AbstractUser):
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS=['first_name','last_name']
-    
-    dob = models.DateField()
+    # abc = models.CharField()
+    dob = models.DateField(null=True,blank=True)
     
     roles_choices = [
         (0,'reader'),
-        (1,'admin'),
-        (2,'moderator'),
-        (3,'author')
+        # (1,'admin'),
+        (1,'moderator'),
+        (2,'author')
     ]
     roles = models.IntegerField(choices=roles_choices,default=0)
         
