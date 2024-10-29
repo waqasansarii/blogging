@@ -1,8 +1,6 @@
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate,login,logout
 
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.request import Request
@@ -10,7 +8,6 @@ from rest_framework import status
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny
 
-from ..models import User
 from ..serializers.user_serializer import (
 RegisterSerializer,
 LoginSerializer,
@@ -18,10 +15,6 @@ ProfileSerializer
 )
 
 
-# class UserView(ModelViewSet):
-#     queryset = User.objects.all()
-#     serializer_class = RegisterSerializer
- 
 @permission_classes([AllowAny])    
 class RegisterView(APIView):
     def post(self,request:Request):

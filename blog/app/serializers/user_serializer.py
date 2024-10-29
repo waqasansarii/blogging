@@ -8,16 +8,15 @@ class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields=['first_name','last_name','roles','dob','email','password']
-        # fields='__all__'
  
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password= serializers.CharField(write_only=True)
     
+    
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model= User
-        # fields='__all__' 
         fields=['first_name','last_name','roles','dob','email','is_superuser','is_active']
            
