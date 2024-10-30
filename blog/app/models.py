@@ -21,4 +21,13 @@ class User(AbstractUser):
 class Category(models.Model):
     name = models.CharField(max_length=30)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)        
+    updated_at = models.DateTimeField(auto_now=True) 
+
+
+class Blog(models.Model):
+    content = models.TextField()
+    author = models.ForeignKey(User,related_name='blog_author',on_delete=models.CASCADE)
+    contributors = models.ManyToManyField(User,related_name='blog_contributor',null=True,blank=True)
+    category = models.ManyToManyField(Category,related_name='blog_category')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)             
