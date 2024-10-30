@@ -16,4 +16,9 @@ class User(AbstractUser):
         (2,'author')
     ]
     roles = models.IntegerField(choices=roles_choices,default=0)
-        
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=30)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)        
