@@ -4,10 +4,12 @@ from rest_framework.routers import DefaultRouter
 
 from .views.users import RegisterView,LoginView,LogoutView,ProfileView
 from .views.category import CategoryView
+from .views.blog import BlogView
 
 
 router = DefaultRouter()
 router.register('categories',CategoryView)
+router.register('blogs',BlogView)
 
 urlpatterns =[
   path('users/signup',RegisterView.as_view()) ,
