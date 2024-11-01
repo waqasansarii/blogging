@@ -1,7 +1,15 @@
 from rest_framework import serializers
-from ..models import Blog,Category,User
+from ..models import Blog,Category,User,Comments,BlogLike
 from .user_serializer import UserSerializer
 from .category_serializer import CategorySerializer
+# from .comment_serializer import 
+
+# class CommentSerializer(serializers.ModelSerializer):
+#     # user = UserSerializer(read_only=True)
+#     class Meta:
+#         model = Comments
+#         fields=['id','content','user','created_at']
+
 
 
 class BlogSerializer(serializers.ModelSerializer):
@@ -19,14 +27,27 @@ class BlogSerializer(serializers.ModelSerializer):
         many=True,
         write_only=True
         )
+    # comments = CommentSerializer(read_only=True,source='comment_blog',many=True)
+    comments = serializers.SerializerMethodField()
+    likes = serializers.SerializerMethodField()
+    
     class Meta:
         model = Blog
         fields = ['id','title','content','author','contributors','category','category_id',
-                  'contributors_id','created_at'
+                  'contributors_id','comments','likes','created_at'
                   ]
         read_only_fields = ['author']
     
     
+    def get_comments(self,obj):
+        return obj.comment_blog.count()
+    
+    # count total likes using related_name 
+    def get_likes(self,obj ): # obj is Blog instance and get__+(name which define above with SerializerMethodField)
+        return obj.likes_blog.count() #likes_blog is related_name
+    
+    
+    # override create method to add category and contributors in intermediate table 
     def create(self, validated_data):
         contributors = validated_data.pop('contributors_id')
         category = validated_data.pop('category_id')
