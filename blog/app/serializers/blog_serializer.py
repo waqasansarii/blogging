@@ -23,7 +23,7 @@ class BlogSerializer(serializers.ModelSerializer):
         write_only=True
         )
     contributors_id = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.filter(roles__in=[1,2]).all(),
+        queryset=User.objects.filter(roles__in=[2]).all(),
         many=True,
         write_only=True
         )
@@ -56,7 +56,24 @@ class BlogSerializer(serializers.ModelSerializer):
         blog.contributors.set(contributors)
         blog.category.set(category)
         
-        return blog    
+        return blog  
+    
+    def update(self, instance, validated_data):
+        instance.title = validated_data.get('title', instance.title)
+        instance.content = validated_data.get('content', instance.content)
+        print('validated data',validated_data)
+        
+        if  len(validated_data['contributors_id'])>0:
+            contributors = validated_data.pop('contributors_id')
+            instance.contributors.set(contributors) 
+             
+        if  len(validated_data['category_id'])>0 :
+            categories = validated_data.pop('category_id')
+            instance.category.set(categories)  
+
+        instance.save()
+        
+        return instance
         
 
         
